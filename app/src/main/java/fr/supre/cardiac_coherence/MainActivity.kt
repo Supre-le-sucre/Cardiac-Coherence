@@ -1,22 +1,33 @@
 package fr.supre.cardiac_coherence
 
+import SetupSession
+import android.icu.text.DecimalFormat
 import android.os.Bundle
+import android.util.DisplayMetrics
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.supre.cardiac_coherence.ui.theme.CardiacCoherenceTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,21 +36,16 @@ class MainActivity : ComponentActivity() {
         setContent {
             CardiacCoherenceTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    val s = Session(6f, 300, arrayOf(Sounds.FIREPLACE, Sounds.RAIN))
-                    InitialSetupParams(s)
+                    val setupSession = SetupSession(Modifier.padding(innerPadding))
+
+                    setupSession.InitialSetupParams(5f, 300)
                 }
             }
         }
     }
 }
 
-@Composable
-fun InitialSetupParams(s: Session){
 
-    Row {
-        Slider(value=s.respPerMin, onValueChange = { s.respPerMin = it }, steps = 5, valueRange=5f..10f, enabled=true)
-    }
-}
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
@@ -58,7 +64,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 fun GreetingPreview() {
 
     CardiacCoherenceTheme {
-        val s = Session(6f, 300, arrayOf(Sounds.FIREPLACE, Sounds.RAIN))
-        InitialSetupParams(s)
+        val setupSession = SetupSession(Modifier)
+        setupSession.InitialSetupParams(5f, 300)
     }
 }

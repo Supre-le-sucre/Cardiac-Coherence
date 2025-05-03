@@ -1,7 +1,11 @@
 package fr.supre.cardiac_coherence
 
-enum class Sounds {
+enum class Sounds(val stringToShow: String) {
 
-    WAVES, FIREPLACE, BIRDS, RAIN, THUNDER
+    WAVES("Vagues"),
+    FIREPLACE("Feu de bois"),
+    BIRDS("Chants d'oiseaux"),
+    RAIN("Pluie"),
+    THUNDER("Orage")
 
 }
