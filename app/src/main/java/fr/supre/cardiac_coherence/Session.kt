@@ -1,5 +1,10 @@
 package fr.supre.cardiac_coherence
 
+import android.content.Context
+import android.media.MediaPlayer
+import java.util.Timer
+import kotlin.concurrent.timer
+
 
 /**
  * A cardiac Coherence Session.
@@ -12,8 +17,37 @@ package fr.supre.cardiac_coherence
  * @param sounds The sound to be played during the session (can be empty)
  *
  */
-class Session(var respPerMin: Float,  var duration: Int, var sounds: Array<Sounds>) {
+class Session(val context: Context, var respPerMin: Float,  var duration: Int, var sounds: Set<Sounds>) {
 
-    constructor(respPerMin: Float, duration: Int) : this(respPerMin, duration, emptyArray())
+    var sessionTimer: Timer? = null
+
+    fun start() {
+        println("Starting $respPerMin resp/min for $duration using $sounds")
+        var msElapsed = -30
+        var audioStarted = false
+        this.sessionTimer = timer(name="session", period = 100, action =
+            {
+                msElapsed++;
+                if(msElapsed < 0) {
+                    // Delaying logic
+
+                }
+                else {
+
+                    if(!audioStarted) {
+                        var mediaPlayer = MediaPlayer.create(context, R.raw.waves)
+                        mediaPlayer.start()
+                        println("audio started")
+                        audioStarted = true
+                    }
+                }
+
+            })
+    }
+
+    fun stop() {
+        println("Session has ended prematurely")
+        sessionTimer?.cancel()
+    }
 
 }

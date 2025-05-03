@@ -1,34 +1,39 @@
-import android.R.attr.onClick
+package fr.supre.cardiac_coherence
+
+import android.content.Context
 import android.icu.text.DecimalFormat
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import fr.supre.cardiac_coherence.Sounds
 import kotlin.math.abs
 
-class SetupSession(val modifier: Modifier) {
+class SetupSession(val context: Context, val modifier: Modifier) {
+
+    val soundSelected= mutableStateMapOf<Sounds, Boolean>()
+    var sessionOnGoing = mutableIntStateOf(0)
+    var currentSession: Session? = null
 
     @Composable
     fun InitialSetupParams(initialRespPerMin: Float, initialDuration: Int){
         var currRespPerMin by remember { mutableFloatStateOf(initialRespPerMin) }
         var currDuration by remember { mutableIntStateOf(initialDuration) }
+        var sessionOnGoing by remember { sessionOnGoing }
         Column(
             modifier = Modifier.wrapContentSize(),
             verticalArrangement = Arrangement.Center,
@@ -48,7 +53,7 @@ class SetupSession(val modifier: Modifier) {
 
                 Slider(
                     value= currDuration.toFloat(),
-                    onValueChange = {currDuration = snapToNextMultiple(it, 30)},
+                    onValueChange = {currDuration = snapToNextMultiple(it)},
                     steps = 0,
                     valueRange=300f..600f,
                     enabled=true,
@@ -65,23 +70,58 @@ class SetupSession(val modifier: Modifier) {
             )
 
 
-
             for (s in Sounds.entries) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
 
-                Button(
-                    onClick = {},
-                    modifier = modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp)
                 ) {
+                    Checkbox(
+                        checked = (soundSelected[s] == true),
+                        onCheckedChange = { soundSelected[s] = it },
+
+                    )
+
                     Text(s.stringToShow)
                 }
             }
 
-            ElevatedButton(
-                onClick = {},
-                modifier = modifier
-            ) {
-                Text("Commencer la séance")
+            Row {
+                ElevatedButton(
+                    enabled = sessionOnGoing == 0,
+
+                    onClick = {
+                        sessionOnGoing = 1
+
+                        currentSession = Session(
+                            context,
+                            currRespPerMin,
+                            currDuration,
+                            soundSelected.filterKeys { soundSelected[it] == true }.keys
+                        )
+                        currentSession?.start()
+
+
+                    },
+                    modifier = modifier
+                ) {
+                    Text("Commencer la séance")
+                }
+                ElevatedButton(
+                    enabled = sessionOnGoing == 1,
+
+                    onClick = {
+                        sessionOnGoing = 0
+
+                        currentSession?.stop()
+
+
+                    },
+                    modifier = modifier
+                ) {
+                    Text("Terminer la séance")
+                }
             }
+
 
 
 
@@ -96,8 +136,7 @@ class SetupSession(val modifier: Modifier) {
      *
      * @return the closest integer multiple of next from value
      */
-    private fun snapToNextMultiple(value: Float, next: Int): Int {
-        println(value)
+    private fun snapToNextMultiple(value: Float, next: Int= 30): Int {
         var multiple = next
 
         while(multiple < value) { multiple += next }
@@ -107,6 +146,5 @@ class SetupSession(val modifier: Modifier) {
         }
         return multiple-next
     }
-
 
 }
