@@ -93,9 +93,9 @@ class Session(val context: Context, var respPerMin: Float,  var duration: Int, v
         val timeOfCycle: Long = (durationOfOneResp*1000).toLong()
 
         val inspireSound = MediaPlayer.create(context, R.raw.inspire)
-        inspireSound.setVolume(0.3f, 0.3f)
+        inspireSound.setVolume(0.1f, 0.1f)
         val expireSound = MediaPlayer.create(context, R.raw.expire)
-        expireSound.setVolume(0.3f, 0.3f)
+        expireSound.setVolume(0.1f, 0.1f)
 
         var timeLeft = duration.toFloat()
 
