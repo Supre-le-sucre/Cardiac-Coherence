@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     val setupSession = SetupSession(this, Modifier.padding(innerPadding))
 
-                    setupSession.InitialSetupParams(5f, 300)
+                    setupSession.InitialSetupParams(6f, 300)
                 }
             }
         }
