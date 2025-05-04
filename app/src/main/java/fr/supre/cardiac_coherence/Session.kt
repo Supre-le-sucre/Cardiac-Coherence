@@ -37,7 +37,7 @@ class Session(val context: Context, var respPerMin: Float,  var duration: Int, v
         var respCycleStarted = false
         this.sessionTimer = timer(name="session", initialDelay=100, period = 100, action =
             {
-                msElapsed++;
+                msElapsed++
                 if(!soundPlayer.isEmpty() && msElapsed <= msDelay) {
                     // Fade in
                     for (mp in soundPlayer) {
