@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -26,38 +27,37 @@ import kotlin.math.abs
 class SetupSession(val context: Context, val modifier: Modifier) {
 
     val soundSelected= mutableStateMapOf<Sounds, Boolean>()
-    var sessionOnGoing = mutableIntStateOf(0)
-    var currentSession: Session? = null
+
 
     @Composable
     fun InitialSetupParams(initialRespPerMin: Float, initialDuration: Int){
         var currRespPerMin by remember { mutableFloatStateOf(initialRespPerMin) }
         var currDuration by remember { mutableIntStateOf(initialDuration) }
-        var sessionOnGoing by remember { sessionOnGoing }
+        var currentSession by remember { mutableStateOf<Session?>(null) }
         Column(
-            modifier = Modifier.wrapContentSize(),
+            modifier = Modifier.Companion.wrapContentSize(),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+            horizontalAlignment = Alignment.Companion.CenterHorizontally
+        ) {
 
             Row {
 
                 Slider(
-                    value= currRespPerMin,
+                    value = currRespPerMin,
                     onValueChange = { currRespPerMin = it },
                     steps = 0,
-                    valueRange=5f..10f,
-                    enabled=true,
-                    modifier = modifier.weight(1f).padding(top=24.dp, start=24.dp, end=8.dp)
+                    valueRange = 5f..10f,
+                    enabled = currentSession == null,
+                    modifier = modifier.weight(1f).padding(top = 24.dp, start = 24.dp, end = 8.dp)
                 )
 
                 Slider(
-                    value= currDuration.toFloat(),
-                    onValueChange = {currDuration = snapToNextMultiple(it)},
+                    value = currDuration.toFloat(),
+                    onValueChange = { currDuration = snapToNextMultiple(it) },
                     steps = 0,
-                    valueRange=300f..600f,
-                    enabled=true,
-                    modifier = modifier.weight(1f).padding(top=24.dp, start=8.dp, end=24.dp)
+                    valueRange = 300f..600f,
+                    enabled = currentSession == null,
+                    modifier = modifier.weight(1f).padding(top = 24.dp, start = 8.dp, end = 24.dp)
                 )
 
             }
@@ -72,13 +72,13 @@ class SetupSession(val context: Context, val modifier: Modifier) {
 
             for (s in Sounds.entries) {
                 Row(
-                    verticalAlignment = Alignment.CenterVertically,
+                    verticalAlignment = Alignment.Companion.CenterVertically,
 
-                ) {
+                    ) {
                     Checkbox(
                         checked = (soundSelected[s] == true),
                         onCheckedChange = { soundSelected[s] = it },
-
+                        enabled = currentSession == null
                     )
 
                     Text(s.stringToShow)
@@ -87,14 +87,14 @@ class SetupSession(val context: Context, val modifier: Modifier) {
 
             Row {
                 ElevatedButton(
-                    enabled = sessionOnGoing == 0,
+                    enabled = currentSession == null,
 
                     onClick = {
-                        sessionOnGoing = 1
-
+                        val df = DecimalFormat("#.#")
+                        val respPerMinFormated: Float = df.format(currRespPerMin).toFloat()
                         currentSession = Session(
                             context,
-                            currRespPerMin,
+                            respPerMinFormated,
                             currDuration,
                             soundSelected.filterKeys { soundSelected[it] == true }.keys
                         )
@@ -107,12 +107,12 @@ class SetupSession(val context: Context, val modifier: Modifier) {
                     Text("Commencer la séance")
                 }
                 ElevatedButton(
-                    enabled = sessionOnGoing == 1,
+                    enabled = currentSession != null,
 
                     onClick = {
-                        sessionOnGoing = 0
 
                         currentSession?.stop()
+                        currentSession = null
 
 
                     },
@@ -123,10 +123,9 @@ class SetupSession(val context: Context, val modifier: Modifier) {
             }
 
 
-
-
         }
     }
+
 
     /**
      * Makes the element snap to the next multiple given
@@ -141,7 +140,7 @@ class SetupSession(val context: Context, val modifier: Modifier) {
 
         while(multiple < value) { multiple += next }
 
-        if (abs(value - multiple) < abs(value - multiple+next)) {
+        if (abs(value - multiple) < abs(value - multiple + next)) {
             return multiple
         }
         return multiple-next
