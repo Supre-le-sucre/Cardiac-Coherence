@@ -55,7 +55,7 @@ class SetupSession(val context: Context, val modifier: Modifier) {
                     value = currDuration.toFloat(),
                     onValueChange = { currDuration = snapToNextMultiple(it) },
                     steps = 0,
-                    valueRange = 300f..600f,
+                    valueRange = 300f..1200f,
                     enabled = currentSession == null,
                     modifier = modifier.weight(1f).padding(top = 24.dp, start = 8.dp, end = 24.dp)
                 )
@@ -113,7 +113,6 @@ class SetupSession(val context: Context, val modifier: Modifier) {
 
                         currentSession?.stop()
                         currentSession = null
-
 
                     },
                     modifier = modifier
