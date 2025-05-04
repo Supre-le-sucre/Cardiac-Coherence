@@ -13,7 +13,7 @@ When those improvments are done, I'll probably publish it on teh Google Play Sto
 ## Credits
 
 Audio:
-All audio files is a trimmed to 35 minutes version of those videos
+All audio files is a trimmed to 35 minutes version of those videos  
 waves.m4a = https://youtu.be/vPhg6sc1Mk4?si=jQ36h4q4sEyckyJE  
 fireplace.m4a = https://youtu.be/MB4Xh3_nYfo?si=WNHl4eqjWt3snaVi  
 birdschirping.m4a = https://youtu.be/MOu4_wpy40U?si=3n3uY09QlS9i7WpR  
