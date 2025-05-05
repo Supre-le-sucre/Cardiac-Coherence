@@ -57,7 +57,7 @@ class SetupSession(val context: Context, val modifier: Modifier) {
                 val respPerMinFormated: String = df.format(currRespPerMin)
                 Text(
                     text =
-                        "$respPerMinFormated respirations par minute...",
+                        respPerMinFormated + " " + context.getString(R.string.resp_per_min),
                 )
 
                 Slider(
@@ -67,8 +67,11 @@ class SetupSession(val context: Context, val modifier: Modifier) {
                     valueRange = 120f..1200f,
                     enabled = currentSession == null,
                 )
+
                 Text(
-                    text = "...Pendant $currDuration secondes..."
+                    text = context.getString(R.string.during) +
+                            " $currDuration "
+                            +context.getString(R.string.seconds)
                 )
 
             }
@@ -79,11 +82,7 @@ class SetupSession(val context: Context, val modifier: Modifier) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                Text(
-
-                    text = "...Avec les bruits de..."
-
-                )
+                Text(context.getString(R.string.with_the_sounds))
 
 
                 for (s in Sounds.entries) {
@@ -97,7 +96,7 @@ class SetupSession(val context: Context, val modifier: Modifier) {
                             enabled = currentSession == null,
                         )
 
-                        Text(s.stringToShow)
+                        Text(context.getString(s.stringId))
                     }
                 }
             }
@@ -121,7 +120,7 @@ class SetupSession(val context: Context, val modifier: Modifier) {
                     },
 
                 ) {
-                    Text("Commencer")
+                    Text(context.getString(R.string.start))
                 }
                 ElevatedButton(
                     enabled = currentSession != null,
@@ -134,12 +133,12 @@ class SetupSession(val context: Context, val modifier: Modifier) {
                     },
 
                 ) {
-                    Text("Arrêter")
+                    Text(context.getString(R.string.stop))
                 }
             }
 
-            Text("Inspirez lorsque le son de cloche est aigüe")
-            Text("Expirez lorsque le son de cloche est grave")
+            Text(context.getString(R.string.instruction_breath_in))
+            Text(context.getString(R.string.instruction_breath_out))
         }
     }
 

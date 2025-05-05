@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name">Cohérence Cardiaque</string>
+    <string name="app_name">Cardiac coherence</string>
+    <string name="resp_per_min">respiration per minute...</string>
+    <string name="during">...For</string>
+    <string name="seconds">seconds...</string>
+    <string name="with_the_sounds">...With the sounds of...</string>
+    <string name="waves">Waves</string>
+    <string name="river">River</string>
+    <string name="fireplace">Fire Place</string>
+    <string name="birds">Birds chirping</string>
+    <string name="rain">Rain</string>
+    <string name="thunderstorm">Thunder</string>
+    <string name="cat">Cat purr</string>
+    <string name="instruction_breath_in">Breath in when the bell is high pitched</string>
+    <string name="instruction_breath_out">Breath out when the bell is low pitched</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
 </resources>

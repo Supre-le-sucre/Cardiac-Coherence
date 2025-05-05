@@ -1,12 +1,14 @@
 package fr.supre.cardiac_coherence
 
-enum class Sounds(val stringToShow: String, val resId: Int) {
+import android.content.Context
 
-    WAVES("Vagues", R.raw.waves),
-    RIVER("Rivière", R.raw.river),
-    FIREPLACE("Feu de bois", R.raw.fireplace),
-    BIRDS("Chants d'oiseaux", R.raw.birdschirping),
-    RAIN("Pluie", R.raw.rain),
-    THUNDER("Orage", R.raw.thunderstorm),
-    CAT("Ronronnement", R.raw.cat)
+enum class Sounds(val stringId: Int, val resId: Int) {
+
+    WAVES(R.string.waves, R.raw.waves),
+    RIVER(R.string.river, R.raw.river),
+    FIREPLACE(R.string.fireplace, R.raw.fireplace),
+    BIRDS(R.string.birds, R.raw.birdschirping),
+    RAIN(R.string.rain, R.raw.rain),
+    THUNDER(R.string.thunderstorm, R.raw.thunderstorm),
+    CAT(R.string.cat, R.raw.cat)
 }

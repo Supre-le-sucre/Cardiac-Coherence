@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cohérence Cardiaque</string>
+    <string name="resp_per_min">respiration par minute...</string>
+    <string name="during">...Pendant</string>
+    <string name="seconds">secondes...</string>
+    <string name="with_the_sounds">...Avec les bruits de...</string>
+    <string name="waves">Vagues</string>
+    <string name="river">Rivière</string>
+    <string name="fireplace">Feu de bois</string>
+    <string name="birds">Chants d\'oiseaux</string>
+    <string name="rain">Pluie</string>
+    <string name="thunderstorm">Orage</string>
+    <string name="cat">Ronronnement</string>
+    <string name="instruction_breath_in">Inspirez lorsque le son de cloche est aigüe</string>
+    <string name="instruction_breath_out">Expirez lorsque le son de cloche est grave</string>
+    <string name="start">Commencer</string>
+    <string name="stop">Arrêter</string>
+</resources>
