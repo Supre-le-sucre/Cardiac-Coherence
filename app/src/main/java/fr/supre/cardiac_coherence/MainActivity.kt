@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
                                 titleContentColor = MaterialTheme.colorScheme.primary
                             ),
                             title= {
-                                Text("Cohérence Cardiaque")
+                                Text(getString(R.string.app_name))
                             }
                         )
                     }

@@ -38,7 +38,7 @@ class SetupSession(val context: Context, val modifier: Modifier) {
         Column(
             modifier = modifier.wrapContentSize().padding(start=32.dp, end=32.dp, top=32.dp),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
             Column(
@@ -105,7 +105,7 @@ class SetupSession(val context: Context, val modifier: Modifier) {
             Row(modifier = Modifier.padding(bottom = 24.dp)) {
                 ElevatedButton(
                     enabled = currentSession == null,
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(1f).padding(end=8.dp),
                     onClick = {
                         val df = DecimalFormat("#.#")
                         val respPerMinFormated: Float = df.format(currRespPerMin).toFloat()
@@ -125,7 +125,7 @@ class SetupSession(val context: Context, val modifier: Modifier) {
                 }
                 ElevatedButton(
                     enabled = currentSession != null,
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(1f).padding(start=8.dp),
                     onClick = {
 
                         currentSession?.stop()
@@ -138,8 +138,8 @@ class SetupSession(val context: Context, val modifier: Modifier) {
                 }
             }
 
-            Text("Inspirer lorsque le son de cloche est aigüe")
-            Text("Expirer lorsque le son de cloche est grave")
+            Text("Inspirez lorsque le son de cloche est aigüe")
+            Text("Expirez lorsque le son de cloche est grave")
         }
     }
 
