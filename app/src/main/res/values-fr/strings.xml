@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Cohérence Cardiaque</string>
-    <string name="resp_per_min">respiration par minute...</string>
+    <string name="resp_per_min">respirations par minute...</string>
     <string name="during">...Pendant</string>
     <string name="seconds">secondes...</string>
     <string name="with_the_sounds">...Avec les bruits de...</string>
