@@ -5,6 +5,7 @@ import android.icu.text.DecimalFormat
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Checkbox
@@ -35,20 +36,28 @@ class SetupSession(val context: Context, val modifier: Modifier) {
         var currDuration by remember { mutableIntStateOf(initialDuration) }
         var currentSession by remember { mutableStateOf<Session?>(null) }
         Column(
-            modifier = Modifier.Companion.wrapContentSize(),
+            modifier = modifier.wrapContentSize().padding(start=32.dp, end=32.dp, top=32.dp),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.Companion.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Row {
-
+            Column(
+                modifier = Modifier.padding(bottom=24.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Slider(
                     value = currRespPerMin,
                     onValueChange = { currRespPerMin = it },
                     steps = 0,
                     valueRange = 5f..10f,
                     enabled = currentSession == null,
-                    modifier = modifier.weight(1f).padding(top = 24.dp, start = 24.dp, end = 8.dp)
+                )
+                val df = DecimalFormat("#.#")
+                val respPerMinFormated: String = df.format(currRespPerMin)
+                Text(
+                    text =
+                        "$respPerMinFormated respirations par minute...",
                 )
 
                 Slider(
@@ -57,38 +66,46 @@ class SetupSession(val context: Context, val modifier: Modifier) {
                     steps = 0,
                     valueRange = 120f..1200f,
                     enabled = currentSession == null,
-                    modifier = modifier.weight(1f).padding(top = 24.dp, start = 8.dp, end = 24.dp)
+                )
+                Text(
+                    text = "...Pendant $currDuration secondes..."
                 )
 
             }
-            val df = DecimalFormat("#.#")
-            val respPerMinFormated: String = df.format(currRespPerMin)
-            Text(
-                text =
-                    "$respPerMinFormated respirations par minute pendant $currDuration secondes",
-                modifier = modifier//.padding(start=24.dp)
-            )
 
 
-            for (s in Sounds.entries) {
-                Row(
-                    verticalAlignment = Alignment.Companion.CenterVertically,
+            Column(Modifier.padding(bottom=24.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
 
+                Text(
+
+                    text = "...Avec les bruits de..."
+
+                )
+
+
+                for (s in Sounds.entries) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
                     ) {
-                    Checkbox(
-                        checked = (soundSelected[s] == true),
-                        onCheckedChange = { soundSelected[s] = it },
-                        enabled = currentSession == null
-                    )
+                        Checkbox(
+                            checked = (soundSelected[s] == true),
+                            onCheckedChange = { soundSelected[s] = it },
+                            enabled = currentSession == null,
+                        )
 
-                    Text(s.stringToShow)
+                        Text(s.stringToShow)
+                    }
                 }
             }
 
-            Row {
+            Row(modifier = Modifier.padding(bottom = 24.dp)) {
                 ElevatedButton(
                     enabled = currentSession == null,
-
+                    modifier = Modifier.weight(1f),
                     onClick = {
                         val df = DecimalFormat("#.#")
                         val respPerMinFormated: Float = df.format(currRespPerMin).toFloat()
@@ -102,26 +119,27 @@ class SetupSession(val context: Context, val modifier: Modifier) {
 
 
                     },
-                    modifier = modifier
+
                 ) {
-                    Text("Commencer la séance")
+                    Text("Commencer")
                 }
                 ElevatedButton(
                     enabled = currentSession != null,
-
+                    modifier = Modifier.weight(1f),
                     onClick = {
 
                         currentSession?.stop()
                         currentSession = null
 
                     },
-                    modifier = modifier
+
                 ) {
-                    Text("Terminer la séance")
+                    Text("Arrêter")
                 }
             }
 
-
+            Text("Inspirer lorsque le son de cloche est aigüe")
+            Text("Expirer lorsque le sond de cloche est grave")
         }
     }
 
