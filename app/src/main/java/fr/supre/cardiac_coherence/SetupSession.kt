@@ -139,7 +139,7 @@ class SetupSession(val context: Context, val modifier: Modifier) {
             }
 
             Text("Inspirer lorsque le son de cloche est aigüe")
-            Text("Expirer lorsque le sond de cloche est grave")
+            Text("Expirer lorsque le son de cloche est grave")
         }
     }
 
