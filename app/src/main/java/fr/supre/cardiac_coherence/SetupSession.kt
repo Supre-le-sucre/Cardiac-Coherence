@@ -69,9 +69,7 @@ class SetupSession(val context: Context, val modifier: Modifier) {
                 )
 
                 Text(
-                    text = context.getString(R.string.during) +
-                            " $currDuration "
-                            +context.getString(R.string.seconds)
+                    text = context.getString(R.string.during) + " " + prettyFormatSeconds(currDuration)
                 )
 
             }
@@ -151,7 +149,7 @@ class SetupSession(val context: Context, val modifier: Modifier) {
      *
      * @return the closest integer multiple of next from value
      */
-    private fun snapToNextMultiple(value: Float, next: Int= 30): Int {
+    private fun snapToNextMultiple(value: Float, next: Int= 15): Int {
         var multiple = next
 
         while(multiple < value) { multiple += next }
@@ -160,6 +158,20 @@ class SetupSession(val context: Context, val modifier: Modifier) {
             return multiple
         }
         return multiple-next
+    }
+
+    /**
+     * @return second conversion in minutes and seconds
+     */
+    private fun prettyFormatSeconds(value: Int): String {
+        val minutes = value/60
+        val seconds = value%60
+
+        var secondsString = "..."
+        if(seconds != 0) secondsString = " " + context.getString(R.string.and) + " " +
+                seconds + " "+ context.getString(R.string.seconds) +"..."
+        return ""+ minutes + " " + context.getString(R.string.minutes) + secondsString
+
     }
 
 }
